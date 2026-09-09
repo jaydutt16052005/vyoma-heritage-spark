@@ -16,8 +16,8 @@ export const Route = createFileRoute("/heritage")({
 });
 
 function Heritage() {
-  const [active, setActive] = useState(HERITAGE_SITES[0].id);
-  const site = HERITAGE_SITES.find((s) => s.id === active)!;
+  const [active, setActive] = useState<string>(HERITAGE_SITES[0]?.id ?? "");
+  const site = HERITAGE_SITES.find((s) => s.id === active) ?? HERITAGE_SITES[0]!;
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-14">

@@ -403,7 +403,8 @@ function ScenePage() {
                 setSelectedNode((s) => (s === id ? null : id));
                 if (scene.characters.some((c) => c.id === id)) setSelectedChar(id);
               }}
-              className="mt-3 h-72"
+              compact
+              className="mt-3 h-80"
             />
             <p className="mt-3 text-xs text-muted-foreground">
               Highlighted nodes follow the timeline — {currentBeat.graphFocus.length} entities active in “{currentBeat.title}”.

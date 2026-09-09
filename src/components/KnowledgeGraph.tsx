@@ -15,6 +15,7 @@ export function KnowledgeGraph({
   selected,
   onSelect,
   className = "",
+  compact = false,
 }: {
   nodes: GraphNode[];
   edges: GraphEdge[];
@@ -22,6 +23,7 @@ export function KnowledgeGraph({
   selected?: string | null;
   onSelect?: (id: string) => void;
   className?: string;
+  compact?: boolean;
 }) {
   const active = useMemo(() => {
     const set = new Set(highlight);
@@ -88,7 +90,7 @@ export function KnowledgeGraph({
           <button
             key={n.id}
             onClick={() => onSelect?.(n.id)}
-            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs backdrop-blur transition-all duration-300"
+            className={`absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border backdrop-blur transition-all duration-300 ${compact ? "px-1.5 py-0.5 text-[9px]" : "px-3 py-1.5 text-xs"}`}
             style={{
               left: `${px(n.x)}%`,
               top: `${px(n.y)}%`,

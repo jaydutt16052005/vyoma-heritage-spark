@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ExploreRouteImport } from './routes/explore'
+import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as KnowledgeGraphRouteImport } from './routes/knowledge-graph'
+import { Route as EpicsEpicIdRouteImport } from './routes/epics.$epicId'
+import { Route as SceneSceneIdRouteImport } from './routes/scene.$sceneId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExploreRoute = ExploreRouteImport.update({
+  id: '/explore',
+  path: '/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeritageRoute = HeritageRouteImport.update({
+  id: '/heritage',
+  path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeGraphRoute = KnowledgeGraphRouteImport.update({
+  id: '/knowledge-graph',
+  path: '/knowledge-graph',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EpicsEpicIdRoute = EpicsEpicIdRouteImport.update({
+  id: '/epics/$epicId',
+  path: '/epics/$epicId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SceneSceneIdRoute = SceneSceneIdRouteImport.update({
+  id: '/scene/$sceneId',
+  path: '/scene/$sceneId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/heritage': typeof HeritageRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
+  '/epics/$epicId': typeof EpicsEpicIdRoute
+  '/scene/$sceneId': typeof SceneSceneIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/heritage': typeof HeritageRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
+  '/epics/$epicId': typeof EpicsEpicIdRoute
+  '/scene/$sceneId': typeof SceneSceneIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/explore': typeof ExploreRoute
+  '/heritage': typeof HeritageRoute
+  '/knowledge-graph': typeof KnowledgeGraphRoute
+  '/epics/$epicId': typeof EpicsEpicIdRoute
+  '/scene/$sceneId': typeof SceneSceneIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/explore'
+    | '/heritage'
+    | '/knowledge-graph'
+    | '/epics/$epicId'
+    | '/scene/$sceneId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/explore'
+    | '/heritage'
+    | '/knowledge-graph'
+    | '/epics/$epicId'
+    | '/scene/$sceneId'
+  id:
+    | '__root__'
+    | '/'
+    | '/explore'
+    | '/heritage'
+    | '/knowledge-graph'
+    | '/epics/$epicId'
+    | '/scene/$sceneId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExploreRoute: typeof ExploreRoute
+  HeritageRoute: typeof HeritageRoute
+  KnowledgeGraphRoute: typeof KnowledgeGraphRoute
+  EpicsEpicIdRoute: typeof EpicsEpicIdRoute
+  SceneSceneIdRoute: typeof SceneSceneIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/explore': {
+      id: '/explore'
+      path: '/explore'
+      fullPath: '/explore'
+      preLoaderRoute: typeof ExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heritage': {
+      id: '/heritage'
+      path: '/heritage'
+      fullPath: '/heritage'
+      preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge-graph': {
+      id: '/knowledge-graph'
+      path: '/knowledge-graph'
+      fullPath: '/knowledge-graph'
+      preLoaderRoute: typeof KnowledgeGraphRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/epics/$epicId': {
+      id: '/epics/$epicId'
+      path: '/epics/$epicId'
+      fullPath: '/epics/$epicId'
+      preLoaderRoute: typeof EpicsEpicIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scene/$sceneId': {
+      id: '/scene/$sceneId'
+      path: '/scene/$sceneId'
+      fullPath: '/scene/$sceneId'
+      preLoaderRoute: typeof SceneSceneIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExploreRoute: ExploreRoute,
+  HeritageRoute: HeritageRoute,
+  KnowledgeGraphRoute: KnowledgeGraphRoute,
+  EpicsEpicIdRoute: EpicsEpicIdRoute,
+  SceneSceneIdRoute: SceneSceneIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

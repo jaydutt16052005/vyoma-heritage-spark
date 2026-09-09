@@ -112,7 +112,7 @@ function ScenePage() {
   );
 
   const currentBeat = useMemo(() => {
-    let b = scene.beats[0];
+    let b = scene.beats[0]!;
     for (const beat of scene.beats) if (time >= beat.t) b = beat;
     return b;
   }, [time, scene.beats]);

@@ -36,6 +36,7 @@ export function KnowledgeGraph({
   }, [highlight, selected, edges]);
 
   const dim = active.size > 0;
+  const px = (v: number) => 7 + v * 0.86;
 
   return (
     <div className={`relative overflow-hidden rounded-2xl border border-border holo-grid ${className}`}>
@@ -49,10 +50,10 @@ export function KnowledgeGraph({
           return (
             <line
               key={i}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
+              x1={px(a.x)}
+              y1={px(a.y)}
+              x2={px(b.x)}
+              y2={px(b.y)}
               stroke={on ? "var(--gold)" : "var(--aqua)"}
               strokeWidth={on ? 0.45 : 0.18}
               opacity={dim ? (on ? 0.95 : 0.15) : 0.4}
@@ -73,7 +74,7 @@ export function KnowledgeGraph({
           <span
             key={`l-${i}`}
             className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 rounded bg-background/80 px-1.5 py-0.5 text-[9px] uppercase tracking-widest text-primary"
-            style={{ left: `${(a.x + b.x) / 2}%`, top: `${(a.y + b.y) / 2}%` }}
+            style={{ left: `${px((a.x + b.x) / 2)}%`, top: `${px((a.y + b.y) / 2)}%` }}
           >
             {e.label}
           </span>
@@ -89,8 +90,8 @@ export function KnowledgeGraph({
             onClick={() => onSelect?.(n.id)}
             className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs backdrop-blur transition-all duration-300"
             style={{
-              left: `${n.x}%`,
-              top: `${n.y}%`,
+              left: `${px(n.x)}%`,
+              top: `${px(n.y)}%`,
               borderColor: on ? KIND_COLOR[n.kind] : "var(--border)",
               background: on ? `color-mix(in oklab, ${KIND_COLOR[n.kind]} 22%, var(--card))` : "color-mix(in oklab, var(--card) 82%, transparent)",
               boxShadow: isSel ? `0 0 26px -4px ${KIND_COLOR[n.kind]}` : on ? `0 0 16px -6px ${KIND_COLOR[n.kind]}` : "none",

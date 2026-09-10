@@ -35,47 +35,41 @@
   --color-aqua: var(--aqua);
   --color-vermilion: var(--vermilion);
   --color-violet-glow: var(--violet-glow);
-  --font-display: "Marcellus", ui-serif, Georgia, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Lora", ui-serif, Georgia, serif;
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.16 0.035 275);
-  --foreground: oklch(0.95 0.012 90);
-  --card: oklch(0.21 0.04 277);
-  --card-foreground: oklch(0.95 0.012 90);
-  --popover: oklch(0.19 0.04 277);
-  --popover-foreground: oklch(0.95 0.012 90);
-  --primary: oklch(0.81 0.12 84);
-  --primary-foreground: oklch(0.18 0.04 277);
-  --secondary: oklch(0.28 0.05 280);
-  --secondary-foreground: oklch(0.95 0.012 90);
-  --muted: oklch(0.26 0.045 279);
-  --muted-foreground: oklch(0.74 0.03 275);
-  --accent: oklch(0.72 0.13 200);
-  --accent-foreground: oklch(0.16 0.035 275);
-  --destructive: oklch(0.62 0.2 25);
-  --destructive-foreground: oklch(0.97 0.01 90);
-  --border: oklch(0.85 0.09 84 / 18%);
-  --input: oklch(0.85 0.09 84 / 22%);
-  --ring: oklch(0.81 0.12 84 / 55%);
+  --radius: 0.45rem;
+  --background: #fbf7f0;
+  --foreground: #33271f;
+  --card: #fffdf8;
+  --card-foreground: #33271f;
+  --popover: #fffdf8;
+  --popover-foreground: #33271f;
+  --primary: #b88a3b;
+  --primary-foreground: #33271f;
+  --secondary: #f0e1cc;
+  --secondary-foreground: #5b3a29;
+  --muted: #f0e1cc;
+  --muted-foreground: #765b49;
+  --accent: #a95f46;
+  --accent-foreground: #fffdf8;
+  --destructive: #a95f46;
+  --destructive-foreground: #fffdf8;
+  --border: color-mix(in oklab, #a87552 42%, transparent);
+  --input: color-mix(in oklab, #a87552 50%, transparent);
+  --ring: color-mix(in oklab, #b88a3b 60%, transparent);
 
-  --gold: oklch(0.83 0.12 84);
-  --saffron: oklch(0.75 0.16 62);
-  --aqua: oklch(0.79 0.12 196);
-  --vermilion: oklch(0.63 0.19 28);
-  --violet-glow: oklch(0.66 0.17 300);
+  --gold: #b88a3b;
+  --saffron: #a87552;
+  --aqua: #b88a3b;
+  --vermilion: #a95f46;
+  --violet-glow: #5b3a29;
 
-  --gradient-aurora: radial-gradient(
-      120% 90% at 12% 0%,
-      color-mix(in oklab, var(--violet-glow) 30%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(100% 80% at 88% 10%, color-mix(in oklab, var(--aqua) 22%, transparent), transparent 60%),
-    radial-gradient(90% 70% at 50% 110%, color-mix(in oklab, var(--gold) 20%, transparent), transparent 65%);
-  --shadow-holo: 0 0 60px -12px color-mix(in oklab, var(--aqua) 55%, transparent);
-  --shadow-elegant: 0 24px 60px -28px color-mix(in oklab, var(--gold) 45%, transparent);
+  --gradient-aurora: linear-gradient(135deg, color-mix(in oklab, #f0e1cc 72%, transparent), transparent 48%), linear-gradient(315deg, color-mix(in oklab, #dfc3a0 38%, transparent), transparent 55%);
+  --shadow-holo: 0 24px 52px -28px color-mix(in oklab, #5b3a29 42%, transparent);
+  --shadow-elegant: 0 18px 42px -28px color-mix(in oklab, #5b3a29 38%, transparent);
 }
 
 @layer base {
@@ -87,6 +81,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    background-image: linear-gradient(90deg, transparent 0, color-mix(in oklab, var(--gold) 5%, transparent) 50%, transparent 100%);
   }
   h1,
   h2,
@@ -116,28 +111,27 @@
 }
 
 @utility glass {
-  background: color-mix(in oklab, var(--card) 72%, transparent);
-  backdrop-filter: blur(14px);
+  background: color-mix(in oklab, var(--card) 92%, var(--secondary));
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-elegant);
 }
 
 @utility gold-text {
-  background: linear-gradient(
-    100deg,
-    color-mix(in oklab, var(--gold) 95%, white),
-    var(--saffron) 45%,
-    color-mix(in oklab, var(--gold) 90%, white)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--gold);
 }
 
 @utility holo-grid {
   background-image:
-    linear-gradient(color-mix(in oklab, var(--aqua) 16%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklab, var(--aqua) 16%, transparent) 1px, transparent 1px);
-  background-size: 44px 44px;
+    linear-gradient(90deg, transparent 0 8%, color-mix(in oklab, var(--gold) 10%, transparent) 8% 8.15%, transparent 8.15% 91.85%, color-mix(in oklab, var(--gold) 10%, transparent) 91.85% 92%, transparent 92%),
+    linear-gradient(var(--secondary), var(--secondary));
+  background-size: 100% 100%;
+}
+
+@utility theatre-stage {
+  background: #33271f;
+  color: #fffdf8;
+  border-color: color-mix(in oklab, var(--gold) 58%, transparent);
+  box-shadow: inset 0 0 70px color-mix(in oklab, #5b3a29 68%, transparent), var(--shadow-holo);
 }
 
 @utility card-lift {
@@ -148,7 +142,7 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-elegant);
-    border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+    border-color: color-mix(in oklab, var(--gold) 65%, transparent);
   }
 }
 

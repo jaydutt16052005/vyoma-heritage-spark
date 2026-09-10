@@ -162,12 +162,12 @@ function HeroDevice() {
   return (
     <div className="relative mx-auto grid h-[30rem] w-full max-w-md place-items-end">
       <div className="absolute inset-x-6 bottom-28 top-4">
-        <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--aqua)_45%,transparent),transparent_70%)] blur-xl" />
+        <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--gold)_38%,transparent),transparent_70%)] blur-xl" />
         <div
           className="absolute inset-x-10 bottom-0 top-6 opacity-80"
           style={{
             background:
-              "linear-gradient(to top, color-mix(in oklab, var(--aqua) 40%, transparent), transparent 78%)",
+              "linear-gradient(to top, color-mix(in oklab, var(--gold) 34%, transparent), transparent 78%)",
             clipPath: "polygon(38% 100%, 62% 100%, 100% 0%, 0% 0%)",
           }}
         />

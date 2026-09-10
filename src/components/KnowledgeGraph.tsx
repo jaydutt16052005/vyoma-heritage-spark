@@ -3,8 +3,8 @@ import type { GraphEdge, GraphNode } from "@/data/vyoma";
 
 const KIND_COLOR: Record<GraphNode["kind"], string> = {
   person: "var(--gold)",
-  concept: "var(--violet-glow)",
-  place: "var(--aqua)",
+  concept: "var(--vermilion)",
+  place: "var(--heritage-brown, #a87552)",
   object: "var(--vermilion)",
 };
 
@@ -56,7 +56,7 @@ export function KnowledgeGraph({
               y1={px(a.y)}
               x2={px(b.x)}
               y2={px(b.y)}
-              stroke={on ? "var(--gold)" : "var(--aqua)"}
+              stroke={on ? "var(--gold)" : "var(--heritage-brown, #a87552)"}
               strokeWidth={on ? 0.45 : 0.18}
               opacity={dim ? (on ? 0.95 : 0.15) : 0.4}
               vectorEffect="non-scaling-stroke"

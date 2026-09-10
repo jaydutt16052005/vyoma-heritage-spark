@@ -132,7 +132,7 @@ function ScenePage() {
           <p className="mt-2 text-sm text-muted-foreground">{scene.parva} · {scene.tagline}</p>
         </div>
         <div className="flex items-center gap-2 rounded-full border border-border px-4 py-2 text-xs uppercase tracking-widest">
-          <span className={`size-2 rounded-full ${activated ? "bg-accent shadow-[0_0_12px_var(--aqua)]" : "bg-muted-foreground"}`} />
+          <span className={`size-2 rounded-full ${activated ? "bg-primary shadow-[0_0_12px_var(--gold)]" : "bg-muted-foreground"}`} />
           {activated ? "Device projecting" : "Device standby"}
         </div>
       </div>
@@ -140,7 +140,7 @@ function ScenePage() {
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
         {/* Stage */}
         <section>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-3xl border border-border holo-grid">
+          <div className="theatre-stage relative aspect-[16/10] overflow-hidden rounded-3xl border holo-grid">
             <div className="pointer-events-none absolute inset-0 aurora-bg opacity-70" />
 
             {!activated ? (
@@ -178,7 +178,7 @@ function ScenePage() {
             )}
 
             {activated && (
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background/80 to-transparent p-6 pt-16">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground via-foreground/85 to-transparent p-6 pt-16 text-background">
                 <p className="text-[10px] uppercase tracking-[0.3em] text-accent">{currentLine?.speaker}</p>
                 <p className="mt-2 min-h-16 text-2xl leading-snug">
                   {currentLine && <WordSync line={currentLine} lang={lang} time={time} />}
@@ -428,8 +428,8 @@ function WordSync({ line, lang, time }: { line: { start: number; end: number; te
             key={i}
             className="transition-colors duration-200"
             style={{
-              color: spoken ? "var(--foreground)" : "color-mix(in oklab, var(--muted-foreground) 70%, transparent)",
-              textShadow: spoken ? "0 0 22px color-mix(in oklab, var(--gold) 45%, transparent)" : "none",
+              color: spoken ? "var(--gold)" : "color-mix(in oklab, var(--background) 58%, transparent)",
+              textShadow: spoken ? "0 0 18px color-mix(in oklab, var(--gold) 55%, transparent)" : "none",
             }}
           >
             {w}{" "}
@@ -460,9 +460,9 @@ function Hologram({
 
   return (
     <div className="absolute inset-0">
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--aqua)_30%,transparent),transparent_70%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--gold)_35%,transparent),transparent_70%)]" />
       <div className="absolute inset-0 overflow-hidden">
-        <div className={`h-24 w-full bg-[linear-gradient(to_bottom,transparent,color-mix(in_oklab,var(--aqua)_22%,transparent),transparent)] ${playing ? "animate-scanline" : "opacity-0"}`} />
+        <div className={`h-24 w-full bg-[linear-gradient(to_bottom,transparent,color-mix(in_oklab,var(--gold)_25%,transparent),transparent)] ${playing ? "animate-scanline" : "opacity-0"}`} />
       </div>
 
       <div className="absolute left-1/2 top-8 -translate-x-1/2 text-center">

@@ -64,7 +64,7 @@ function Heritage() {
                 </span>
               ))}
             </div>
-            <div className="mt-10 h-40 rounded-2xl border border-accent/30 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--aqua)_30%,transparent),transparent_70%)]">
+            <div className="mt-10 h-40 rounded-2xl border border-accent/30 bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--gold)_24%,transparent),transparent_70%)]">
               <div className="grid h-full place-items-center font-display tracking-[0.4em] text-accent/80">HOLO-SCAN</div>
             </div>
           </div>

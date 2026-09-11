@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Boxes, Languages, Play, ScanLine, Sparkles, Waypoints } from "lucide-react";
 import { EPICS, VASTRAHARAN } from "@/data/vyoma";
 import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
+import { ShlokaPlayer } from "@/components/ShlokaPlayer";
+import { GraphShowcase } from "@/components/GraphShowcase";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,15 +33,15 @@ function Home() {
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-24 lg:grid-cols-[1.05fr_0.95fr] lg:py-32">
           <div className="animate-rise">
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 px-3 py-1 text-xs uppercase tracking-[0.25em] text-primary">
-              <Sparkles className="size-3.5" /> Heritage · Holography · Hindi · Sanskrit
+              <Sparkles className="size-3.5" /> Heritage • Knowledge • Immersive Experience
             </span>
-            <h1 className="mt-6 text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-              The epics, <span className="gold-text">projected into the room.</span>
+            <h1 className="mt-6 font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+              The epics, <span className="gold-text">projected</span> into the room.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              VYOMA is a tabletop holographic device and archive. Place it down, activate the beam, and a scene from the
-              Mahabharata rises upward in light — narrated in your language, annotated with characters, verses and a graph
-              of everything they touch.
+              VYOMA is a tabletop holographic device and archive. Place it down, activate the beam, and step into a world
+              of ancient stories — narrated in your language, annotated with characters, verses and a graph of everything
+              they touch.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
@@ -71,9 +73,19 @@ function Home() {
             </dl>
           </div>
 
-          <HeroDevice />
+          <div className="flex items-center gap-6">
+            <HeroDevice />
+            <p className="hidden shrink-0 text-[11px] uppercase leading-relaxed tracking-[0.28em] text-muted-foreground xl:block [writing-mode:vertical-rl]">
+              From Ancient Texts to Living Experiences
+            </p>
+          </div>
         </div>
       </section>
+
+      <ShlokaPlayer />
+
+      <GraphShowcase />
+
 
       <section className="mx-auto max-w-7xl px-5 py-16">
         <div className="grid gap-5 md:grid-cols-3">

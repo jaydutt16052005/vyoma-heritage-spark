@@ -154,6 +154,16 @@ function ScenePage() {
     if (audioRef.current) audioRef.current.currentTime = sceneToAudioTime(next);
   };
 
+  const selectLanguage = (nextLang: LangCode) => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = sceneToAudioTime(time);
+      if (nextLang === "sa" && playing) void audio.play().catch(() => setPlaying(false));
+      if (nextLang !== "sa") audio.pause();
+    }
+    setLang(nextLang);
+  };
+
   const currentLine = useMemo(
     () => scene.captions.find((c) => time >= c.start && time < c.end) ?? (time >= scene.duration ? scene.captions.at(-1) : scene.captions[0]),
     [time, scene],
@@ -309,7 +319,7 @@ function ScenePage() {
               {LANGUAGES.map((l) => (
                 <button
                   key={l.code}
-                  onClick={() => setLang(l.code)}
+                  onClick={() => selectLanguage(l.code)}
                   className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
                     lang === l.code ? "border-accent bg-accent/15 text-accent" : "border-border text-muted-foreground hover:text-foreground"
                   }`}

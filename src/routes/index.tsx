@@ -178,6 +178,5 @@ function HeroDevice() {
         VYOMA HOLOXY · Upward projection demonstrator
       </figcaption>
     </figure>
-    </div>
   );
 }

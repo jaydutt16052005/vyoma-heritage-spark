@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Boxes, Languages, Play, ScanLine, Sparkles, Waypoints } from "lucide-react";
 import { EPICS, VASTRAHARAN } from "@/data/vyoma";
 import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
+import { ShlokaPlayer } from "@/components/ShlokaPlayer";
+import { GraphShowcase } from "@/components/GraphShowcase";
 
 export const Route = createFileRoute("/")({
   head: () => ({

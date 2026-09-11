@@ -128,7 +128,7 @@ export function ShlokaPlayer() {
                 key={i}
                 className="w-1 rounded-full bg-primary/70"
                 style={{
-                  height: `${(playing ? h * (0.55 + Math.abs(Math.sin(time * 3 + i)) * 0.6) : h * 0.5) * 100}%`,
+                  height: `${Math.round((playing ? h * (0.55 + Math.abs(Math.sin(time * 3 + i)) * 0.6) : h * 0.5) * 100)}%`,
                   transition: "height .18s ease",
                 }}
               />

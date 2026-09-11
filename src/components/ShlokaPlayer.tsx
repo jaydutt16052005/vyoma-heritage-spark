@@ -40,6 +40,7 @@ export function ShlokaPlayer() {
     const onTime = () => setTime(audio.currentTime);
     const onMeta = () => setDuration(audio.duration || 0);
     const onEnd = () => setPlaying(false);
+    if (audio.readyState > 0) onMeta();
     audio.addEventListener("timeupdate", onTime);
     audio.addEventListener("loadedmetadata", onMeta);
     audio.addEventListener("ended", onEnd);

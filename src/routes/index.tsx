@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Boxes, Languages, Play, ScanLine, Sparkles, Waypoints } from "lucide-react";
 import { EPICS, VASTRAHARAN } from "@/data/vyoma";
+import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -120,11 +121,17 @@ function Home() {
                 ))}
               </div>
             </div>
-            <div className="relative min-h-64 border-t border-border holo-grid md:border-l md:border-t-0">
-              <div className="absolute inset-0 aurora-bg opacity-70" />
+            <div className="relative min-h-64 overflow-hidden border-t border-border md:border-l md:border-t-0">
+              <img
+                src={holoxyAsset.url}
+                alt="VYOMA HOLOXY tabletop device projecting Draupadi's Vastraharan"
+                className="absolute inset-0 size-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-foreground/15" />
               <div className="absolute inset-0 grid place-items-center">
-                <div className="animate-float grid size-28 place-items-center rounded-full border border-primary/50 bg-background/40 backdrop-blur">
-                  <Play className="size-8 text-primary" />
+                <div className="animate-float grid size-28 place-items-center rounded-full border border-primary/60 bg-background/75 shadow-[var(--shadow-holo)] backdrop-blur">
+                  <Play className="size-8 text-foreground" />
                   <span className="absolute size-28 rounded-full border border-accent/50 animate-pulse-ring" />
                 </div>
               </div>
@@ -160,31 +167,16 @@ function Home() {
 
 function HeroDevice() {
   return (
-    <div className="relative mx-auto grid h-[30rem] w-full max-w-md place-items-end">
-      <div className="absolute inset-x-6 bottom-28 top-4">
-        <div className="absolute inset-0 rounded-[50%] bg-[radial-gradient(ellipse_at_bottom,color-mix(in_oklab,var(--gold)_38%,transparent),transparent_70%)] blur-xl" />
-        <div
-          className="absolute inset-x-10 bottom-0 top-6 opacity-80"
-          style={{
-            background:
-              "linear-gradient(to top, color-mix(in oklab, var(--gold) 34%, transparent), transparent 78%)",
-            clipPath: "polygon(38% 100%, 62% 100%, 100% 0%, 0% 0%)",
-          }}
-        />
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="animate-scanline h-16 w-full bg-[linear-gradient(to_bottom,transparent,color-mix(in_oklab,var(--gold)_35%,transparent),transparent)]" />
-        </div>
-        <div className="animate-float absolute inset-x-0 top-10 grid place-items-center gap-3">
-          <div className="size-40 rounded-full border border-primary/40 holo-grid opacity-80 animate-spin-slow" />
-          <p className="font-display text-lg tracking-[0.35em] text-primary">सभा</p>
-        </div>
-      </div>
-
-      <div className="relative h-24 w-72">
-        <div className="absolute inset-x-0 bottom-0 h-24 rounded-[999px] border border-primary/40 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card)_92%,transparent),color-mix(in_oklab,var(--background)_98%,transparent))] shadow-[var(--shadow-holo)]" />
-        <div className="absolute inset-x-16 top-3 h-10 rounded-[999px] border border-accent/50 bg-accent/10" />
-        <p className="absolute inset-x-0 bottom-5 text-center font-display text-xs tracking-[0.5em] text-primary/80">VYOMA</p>
-      </div>
-    </div>
+    <figure className="relative mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-holo)]">
+      <img
+        src={holoxyAsset.url}
+        alt="VYOMA HOLOXY tabletop device projecting Draupadi's Vastraharan upward"
+        className="aspect-square size-full object-cover"
+        fetchPriority="high"
+      />
+      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/90 to-transparent px-5 pb-4 pt-14 text-xs uppercase tracking-[0.25em] text-background">
+        VYOMA HOLOXY · Upward projection demonstrator
+      </figcaption>
+    </figure>
   );
 }

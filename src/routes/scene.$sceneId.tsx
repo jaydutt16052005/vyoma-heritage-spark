@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { LANGUAGES, VASTRAHARAN, type LangCode } from "@/data/vyoma";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
+import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
+import sanskritAudioAsset from "@/assets/vastraharan-sanskrit.opus.asset.json";
 
 export const Route = createFileRoute("/scene/$sceneId")({
   loader: ({ params }) => {
@@ -36,6 +38,7 @@ export const Route = createFileRoute("/scene/$sceneId")({
 });
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+const SANSKRIT_AUDIO_DURATION = 74.780958;
 
 const BOOT_STAGES = [
   "Powering photonic core",
@@ -58,6 +61,12 @@ function ScenePage() {
   const [tab, setTab] = useState<"captions" | "transcript">("captions");
   const raf = useRef<number | null>(null);
   const last = useRef<number>(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const sceneToAudioTime = useCallback(
+    (sceneTime: number) => (sceneTime / scene.duration) * SANSKRIT_AUDIO_DURATION,
+    [scene.duration],
+  );
 
   // Hardware activation sequence
   const activate = () => {
@@ -74,7 +83,7 @@ function ScenePage() {
   };
 
   useEffect(() => {
-    if (!playing) {
+    if (!playing || lang === "sa") {
       if (raf.current) cancelAnimationFrame(raf.current);
       raf.current = null;
       return;
@@ -97,14 +106,63 @@ function ScenePage() {
     return () => {
       if (raf.current) cancelAnimationFrame(raf.current);
     };
-  }, [playing, rate, scene.duration]);
+  }, [playing, rate, scene.duration, lang]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.playbackRate = rate;
+    if (lang !== "sa" || !playing) {
+      audio.pause();
+      return;
+    }
+
+    const expectedAudioTime = sceneToAudioTime(time);
+    if (Math.abs(audio.currentTime - expectedAudioTime) > 0.35) audio.currentTime = expectedAudioTime;
+    void audio.play().catch(() => setPlaying(false));
+  }, [lang, playing, rate, sceneToAudioTime]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const syncFromAudio = () => {
+      if (lang !== "sa") return;
+      setTime(Math.min(scene.duration, (audio.currentTime / SANSKRIT_AUDIO_DURATION) * scene.duration));
+    };
+    const finishAudio = () => {
+      setTime(scene.duration);
+      setPlaying(false);
+    };
+    audio.addEventListener("timeupdate", syncFromAudio);
+    audio.addEventListener("ended", finishAudio);
+    return () => {
+      audio.removeEventListener("timeupdate", syncFromAudio);
+      audio.removeEventListener("ended", finishAudio);
+    };
+  }, [lang, scene.duration]);
 
   const restart = useCallback(() => {
     setTime(0);
+    if (audioRef.current) audioRef.current.currentTime = 0;
     setPlaying(true);
   }, []);
 
-  const seek = (t: number) => setTime(Math.max(0, Math.min(scene.duration, t)));
+  const seek = (t: number) => {
+    const next = Math.max(0, Math.min(scene.duration, t));
+    setTime(next);
+    if (audioRef.current) audioRef.current.currentTime = sceneToAudioTime(next);
+  };
+
+  const selectLanguage = (nextLang: LangCode) => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = sceneToAudioTime(time);
+      if (nextLang === "sa" && playing) void audio.play().catch(() => setPlaying(false));
+      if (nextLang !== "sa") audio.pause();
+    }
+    setLang(nextLang);
+  };
 
   const currentLine = useMemo(
     () => scene.captions.find((c) => time >= c.start && time < c.end) ?? (time >= scene.duration ? scene.captions.at(-1) : scene.captions[0]),
@@ -122,6 +180,7 @@ function ScenePage() {
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-10">
+      <audio ref={audioRef} src={sanskritAudioAsset.url} preload="metadata" />
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Link to="/epics/$epicId" params={{ epicId: scene.epicId }} className="text-xs uppercase tracking-[0.3em] text-accent hover:underline">
@@ -141,7 +200,12 @@ function ScenePage() {
         {/* Stage */}
         <section>
           <div className="theatre-stage relative aspect-[16/10] overflow-hidden rounded-3xl border holo-grid">
-            <div className="pointer-events-none absolute inset-0 aurora-bg opacity-70" />
+            <img
+              src={holoxyAsset.url}
+              alt="VYOMA HOLOXY tabletop device projecting Draupadi's Vastraharan"
+              className={`pointer-events-none absolute inset-0 size-full object-cover transition-all duration-700 ${activated ? "opacity-75" : "opacity-45 grayscale-[25%]"}`}
+            />
+            <div className="pointer-events-none absolute inset-0 bg-foreground/40" />
 
             {!activated ? (
               <div className="absolute inset-0 grid place-items-center p-8 text-center">
@@ -174,7 +238,7 @@ function ScenePage() {
                 </div>
               </div>
             ) : (
-              <Hologram beatTitle={currentBeat.hologram} label={currentBeat.title} playing={playing} focus={currentBeat.focus} scene={scene} />
+                <Hologram beatTitle={currentBeat.hologram} label={currentBeat.title} playing={playing} focus={currentBeat.focus} scene={scene} />
             )}
 
             {activated && (
@@ -255,7 +319,7 @@ function ScenePage() {
               {LANGUAGES.map((l) => (
                 <button
                   key={l.code}
-                  onClick={() => setLang(l.code)}
+                  onClick={() => selectLanguage(l.code)}
                   className={`rounded-full border px-3.5 py-1.5 text-sm transition-colors ${
                     lang === l.code ? "border-accent bg-accent/15 text-accent" : "border-border text-muted-foreground hover:text-foreground"
                   }`}
@@ -265,7 +329,7 @@ function ScenePage() {
               ))}
               <span className="ml-auto flex items-center gap-2 text-xs text-muted-foreground">
                 <AudioLines className={`size-4 ${playing ? "text-accent" : ""}`} />
-                {LANGUAGES.find((l) => l.code === lang)?.voice} (mock)
+                {LANGUAGES.find((l) => l.code === lang)?.voice} {lang === "sa" ? "(recorded)" : "(mock)"}
               </span>
             </div>
           </div>

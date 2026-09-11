@@ -73,9 +73,19 @@ function Home() {
             </dl>
           </div>
 
-          <HeroDevice />
+          <div className="flex items-center gap-6">
+            <HeroDevice />
+            <p className="hidden shrink-0 text-[11px] uppercase leading-relaxed tracking-[0.28em] text-muted-foreground xl:block [writing-mode:vertical-rl]">
+              From Ancient Texts to Living Experiences
+            </p>
+          </div>
         </div>
       </section>
+
+      <ShlokaPlayer />
+
+      <GraphShowcase />
+
 
       <section className="mx-auto max-w-7xl px-5 py-16">
         <div className="grid gap-5 md:grid-cols-3">

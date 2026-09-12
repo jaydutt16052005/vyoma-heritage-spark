@@ -215,6 +215,8 @@ function ScenePage() {
         </div>
       </div>
 
+      <ChoosePath active={path} onSelect={choosePath} />
+
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
         {/* Stage */}
         <section>

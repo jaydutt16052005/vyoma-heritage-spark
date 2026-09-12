@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Info } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Info, Sparkles } from "lucide-react";
 import { VASTRAHARAN } from "@/data/vyoma";
 import { GRAPH_LEGEND, KIND_COLOR, KnowledgeGraph } from "@/components/KnowledgeGraph";
 
@@ -18,6 +18,27 @@ export const Route = createFileRoute("/knowledge-graph")({
 
 function GraphPage() {
   const [selected, setSelected] = useState<string | null>("draupadi");
+  const [discovered, setDiscovered] = useState<string[]>([]);
+  const [reveal, setReveal] = useState<string | null>(null);
+  const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => { if (revealTimer.current) clearTimeout(revealTimer.current); }, []);
+
+  const discover = (id: string | null) => {
+    setSelected(id);
+    if (!id) return;
+    const keys = VASTRAHARAN.graph.edges
+      .filter((e) => e.from === id || e.to === id)
+      .map((e) => `${e.from}|${e.to}`);
+    const fresh = keys.filter((k) => !discovered.includes(k));
+    if (fresh.length === 0) return;
+    setDiscovered((d) => [...d, ...fresh]);
+    const label = VASTRAHARAN.graph.nodes.find((n) => n.id === id)?.label ?? "";
+    setReveal(`${label} — ${fresh.length} new ${fresh.length === 1 ? "relation" : "relations"}`);
+    if (revealTimer.current) clearTimeout(revealTimer.current);
+    revealTimer.current = setTimeout(() => setReveal(null), 2600);
+  };
+
   const node = VASTRAHARAN.graph.nodes.find((n) => n.id === selected) ?? null;
   const character = VASTRAHARAN.characters.find((c) => c.id === selected);
   const relations = VASTRAHARAN.graph.edges
@@ -42,19 +63,29 @@ function GraphPage() {
             <span className="size-2 rounded-full" style={{ background: KIND_COLOR[l.kind] }} /> {l.label}
           </span>
         ))}
-        <button onClick={() => setSelected(null)} className="ml-auto text-xs text-primary hover:underline">
+        <span className="ml-auto text-xs text-muted-foreground">
+          {discovered.length} / {VASTRAHARAN.graph.edges.length} connections revealed
+        </span>
+        <button onClick={() => discover(null)} className="text-xs text-primary hover:underline">
           Reset selection
         </button>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
-        <KnowledgeGraph
-          nodes={VASTRAHARAN.graph.nodes}
-          edges={VASTRAHARAN.graph.edges}
-          selected={selected}
-          onSelect={(id) => setSelected((s) => (s === id ? null : id))}
-          className="h-[34rem]"
-        />
+        <div className="relative">
+          <KnowledgeGraph
+            nodes={VASTRAHARAN.graph.nodes}
+            edges={VASTRAHARAN.graph.edges}
+            selected={selected}
+            onSelect={(id) => (selected === id ? discover(null) : discover(id))}
+            className="h-[34rem]"
+          />
+          {reveal && (
+            <div className="animate-rise pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full border border-primary/50 bg-card/95 px-4 py-2 text-xs text-primary shadow-[var(--shadow-elegant)]">
+              <Sparkles className="mr-1.5 inline size-3.5" />✦ Connection Revealed · {reveal}
+            </div>
+          )}
+        </div>
 
         <aside className="rounded-2xl border border-border glass p-6">
           {node ? (

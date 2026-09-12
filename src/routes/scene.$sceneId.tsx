@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { LANGUAGES, VASTRAHARAN, type LangCode } from "@/data/vyoma";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
+import { ChoosePath, type PathId } from "@/components/ChoosePath";
+import { HeritageHunt } from "@/components/HeritageHunt";
 import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
 import sanskritAudioAsset from "@/assets/vastraharan-sanskrit.opus.asset.json";
 
@@ -62,6 +64,19 @@ function ScenePage() {
   const raf = useRef<number | null>(null);
   const last = useRef<number>(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [path, setPath] = useState<PathId | null>(null);
+  const [explored, setExplored] = useState(false);
+  const charactersRef = useRef<HTMLDivElement | null>(null);
+  const storyRef = useRef<HTMLDivElement | null>(null);
+  const contextRef = useRef<HTMLDivElement | null>(null);
+  const sanskritRef = useRef<HTMLDivElement | null>(null);
+
+  const choosePath = (id: PathId) => {
+    setPath(id);
+    const target =
+      id === "characters" ? charactersRef.current : id === "story" ? storyRef.current : id === "context" ? contextRef.current : sanskritRef.current;
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const sceneToAudioTime = useCallback(
     (sceneTime: number) => (sceneTime / scene.duration) * SANSKRIT_AUDIO_DURATION,
@@ -178,6 +193,10 @@ function ScenePage() {
   const activeChar = scene.characters.find((c) => c.id === selectedChar) ?? null;
   const progress = (time / scene.duration) * 100;
 
+  useEffect(() => {
+    if (activated && time >= scene.duration * 0.6) setExplored(true);
+  }, [activated, time, scene.duration]);
+
   return (
     <main className="mx-auto max-w-7xl px-5 py-10">
       <audio ref={audioRef} src={sanskritAudioAsset.url} preload="metadata" />
@@ -195,6 +214,8 @@ function ScenePage() {
           {activated ? "Device projecting" : "Device standby"}
         </div>
       </div>
+
+      <ChoosePath active={path} onSelect={choosePath} />
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
         {/* Stage */}
@@ -252,7 +273,7 @@ function ScenePage() {
           </div>
 
           {/* Transport */}
-          <div className="mt-4 rounded-2xl border border-border glass p-5">
+          <div ref={sanskritRef} className="mt-4 rounded-2xl border border-border glass p-5">
             <div className="relative">
               <div
                 className="h-2 w-full cursor-pointer rounded-full bg-secondary"
@@ -335,7 +356,7 @@ function ScenePage() {
           </div>
 
           {/* Captions / transcript */}
-          <div className="mt-4 rounded-2xl border border-border glass">
+          <div ref={storyRef} className="mt-4 rounded-2xl border border-border glass">
             <div className="flex gap-1 border-b border-border p-2">
               {(["captions", "transcript"] as const).map((t) => (
                 <button
@@ -405,7 +426,7 @@ function ScenePage() {
             <p className="mt-3 border-t border-border pt-3 text-sm text-muted-foreground">{currentBeat.summary}</p>
           </div>
 
-          <div className="rounded-2xl border border-border glass p-5">
+          <div ref={charactersRef} className="rounded-2xl border border-border glass p-5">
             <h2 className="text-xs uppercase tracking-widest text-accent">Characters on stage</h2>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {scene.characters.map((ch) => {
@@ -451,7 +472,7 @@ function ScenePage() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border glass p-5">
+          <div ref={contextRef} className="rounded-2xl border border-border glass p-5">
             <div className="flex items-center justify-between">
               <h2 className="text-xs uppercase tracking-widest text-accent">Live knowledge graph</h2>
               <Link to="/knowledge-graph" className="text-xs text-primary hover:underline">
@@ -476,6 +497,8 @@ function ScenePage() {
           </div>
         </aside>
       </div>
+
+      {explored && <HeritageHunt />}
     </main>
   );
 }

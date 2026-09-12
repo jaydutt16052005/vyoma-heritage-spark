@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { LANGUAGES, VASTRAHARAN, type LangCode } from "@/data/vyoma";
 import { KnowledgeGraph } from "@/components/KnowledgeGraph";
+import { ChoosePath, type PathId } from "@/components/ChoosePath";
+import { HeritageHunt } from "@/components/HeritageHunt";
 import holoxyAsset from "@/assets/vyoma-holoxy.png.asset.json";
 import sanskritAudioAsset from "@/assets/vastraharan-sanskrit.opus.asset.json";
 

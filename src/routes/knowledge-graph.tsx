@@ -63,19 +63,29 @@ function GraphPage() {
             <span className="size-2 rounded-full" style={{ background: KIND_COLOR[l.kind] }} /> {l.label}
           </span>
         ))}
-        <button onClick={() => setSelected(null)} className="ml-auto text-xs text-primary hover:underline">
+        <span className="ml-auto text-xs text-muted-foreground">
+          {discovered.length} / {VASTRAHARAN.graph.edges.length} connections revealed
+        </span>
+        <button onClick={() => discover(null)} className="text-xs text-primary hover:underline">
           Reset selection
         </button>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
-        <KnowledgeGraph
-          nodes={VASTRAHARAN.graph.nodes}
-          edges={VASTRAHARAN.graph.edges}
-          selected={selected}
-          onSelect={(id) => setSelected((s) => (s === id ? null : id))}
-          className="h-[34rem]"
-        />
+        <div className="relative">
+          <KnowledgeGraph
+            nodes={VASTRAHARAN.graph.nodes}
+            edges={VASTRAHARAN.graph.edges}
+            selected={selected}
+            onSelect={(id) => (selected === id ? discover(null) : discover(id))}
+            className="h-[34rem]"
+          />
+          {reveal && (
+            <div className="animate-rise pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-full border border-primary/50 bg-card/95 px-4 py-2 text-xs text-primary shadow-[var(--shadow-elegant)]">
+              <Sparkles className="mr-1.5 inline size-3.5" />✦ Connection Revealed · {reveal}
+            </div>
+          )}
+        </div>
 
         <aside className="rounded-2xl border border-border glass p-6">
           {node ? (

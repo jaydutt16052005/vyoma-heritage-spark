@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Info } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Info, Sparkles } from "lucide-react";
 import { VASTRAHARAN } from "@/data/vyoma";
 import { GRAPH_LEGEND, KIND_COLOR, KnowledgeGraph } from "@/components/KnowledgeGraph";
 

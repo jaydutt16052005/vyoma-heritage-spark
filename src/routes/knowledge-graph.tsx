@@ -18,6 +18,27 @@ export const Route = createFileRoute("/knowledge-graph")({
 
 function GraphPage() {
   const [selected, setSelected] = useState<string | null>("draupadi");
+  const [discovered, setDiscovered] = useState<string[]>([]);
+  const [reveal, setReveal] = useState<string | null>(null);
+  const revealTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => { if (revealTimer.current) clearTimeout(revealTimer.current); }, []);
+
+  const discover = (id: string | null) => {
+    setSelected(id);
+    if (!id) return;
+    const keys = VASTRAHARAN.graph.edges
+      .filter((e) => e.from === id || e.to === id)
+      .map((e) => `${e.from}|${e.to}`);
+    const fresh = keys.filter((k) => !discovered.includes(k));
+    if (fresh.length === 0) return;
+    setDiscovered((d) => [...d, ...fresh]);
+    const label = VASTRAHARAN.graph.nodes.find((n) => n.id === id)?.label ?? "";
+    setReveal(`${label} — ${fresh.length} new ${fresh.length === 1 ? "relation" : "relations"}`);
+    if (revealTimer.current) clearTimeout(revealTimer.current);
+    revealTimer.current = setTimeout(() => setReveal(null), 2600);
+  };
+
   const node = VASTRAHARAN.graph.nodes.find((n) => n.id === selected) ?? null;
   const character = VASTRAHARAN.characters.find((c) => c.id === selected);
   const relations = VASTRAHARAN.graph.edges

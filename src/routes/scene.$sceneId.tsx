@@ -64,6 +64,19 @@ function ScenePage() {
   const raf = useRef<number | null>(null);
   const last = useRef<number>(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [path, setPath] = useState<PathId | null>(null);
+  const [explored, setExplored] = useState(false);
+  const charactersRef = useRef<HTMLDivElement | null>(null);
+  const storyRef = useRef<HTMLDivElement | null>(null);
+  const contextRef = useRef<HTMLDivElement | null>(null);
+  const sanskritRef = useRef<HTMLDivElement | null>(null);
+
+  const choosePath = (id: PathId) => {
+    setPath(id);
+    const target =
+      id === "characters" ? charactersRef.current : id === "story" ? storyRef.current : id === "context" ? contextRef.current : sanskritRef.current;
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   const sceneToAudioTime = useCallback(
     (sceneTime: number) => (sceneTime / scene.duration) * SANSKRIT_AUDIO_DURATION,

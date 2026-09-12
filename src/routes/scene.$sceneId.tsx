@@ -193,6 +193,10 @@ function ScenePage() {
   const activeChar = scene.characters.find((c) => c.id === selectedChar) ?? null;
   const progress = (time / scene.duration) * 100;
 
+  useEffect(() => {
+    if (activated && time >= scene.duration * 0.6) setExplored(true);
+  }, [activated, time, scene.duration]);
+
   return (
     <main className="mx-auto max-w-7xl px-5 py-10">
       <audio ref={audioRef} src={sanskritAudioAsset.url} preload="metadata" />

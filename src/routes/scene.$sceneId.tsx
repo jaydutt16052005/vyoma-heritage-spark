@@ -472,7 +472,7 @@ function ScenePage() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border glass p-5">
+          <div ref={contextRef} className="rounded-2xl border border-border glass p-5">
             <div className="flex items-center justify-between">
               <h2 className="text-xs uppercase tracking-widest text-accent">Live knowledge graph</h2>
               <Link to="/knowledge-graph" className="text-xs text-primary hover:underline">

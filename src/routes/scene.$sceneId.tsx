@@ -426,7 +426,7 @@ function ScenePage() {
             <p className="mt-3 border-t border-border pt-3 text-sm text-muted-foreground">{currentBeat.summary}</p>
           </div>
 
-          <div className="rounded-2xl border border-border glass p-5">
+          <div ref={charactersRef} className="rounded-2xl border border-border glass p-5">
             <h2 className="text-xs uppercase tracking-widest text-accent">Characters on stage</h2>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {scene.characters.map((ch) => {

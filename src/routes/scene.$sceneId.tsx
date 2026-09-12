@@ -273,7 +273,7 @@ function ScenePage() {
           </div>
 
           {/* Transport */}
-          <div className="mt-4 rounded-2xl border border-border glass p-5">
+          <div ref={sanskritRef} className="mt-4 rounded-2xl border border-border glass p-5">
             <div className="relative">
               <div
                 className="h-2 w-full cursor-pointer rounded-full bg-secondary"

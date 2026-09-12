@@ -356,7 +356,7 @@ function ScenePage() {
           </div>
 
           {/* Captions / transcript */}
-          <div className="mt-4 rounded-2xl border border-border glass">
+          <div ref={storyRef} className="mt-4 rounded-2xl border border-border glass">
             <div className="flex gap-1 border-b border-border p-2">
               {(["captions", "transcript"] as const).map((t) => (
                 <button

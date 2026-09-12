@@ -497,6 +497,8 @@ function ScenePage() {
           </div>
         </aside>
       </div>
+
+      {explored && <HeritageHunt />}
     </main>
   );
 }
